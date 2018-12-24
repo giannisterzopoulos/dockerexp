@@ -6,7 +6,7 @@ Change database credentials in **config/postgres/project.env**
 Change nginx configuration in **config/nginx/conf.d/local.conf**
 
 ```sh
-docker compose build
+docker-compose build
 docker-compose run --rm djangoapp /bin/bash -c "./manage.py migrate"
 ```
 
