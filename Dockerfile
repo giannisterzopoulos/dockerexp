@@ -5,12 +5,12 @@ FROM python:3.4
 RUN mkdir -p /opt/services/djangoapp/src
 WORKDIR /opt/services/djangoapp/src
 
-# install our dependencies
+# install dependencies
 # we use --system flag because we don't need an extra virtualenv
 COPY Pipfile Pipfile.lock /opt/services/djangoapp/src/
 RUN pip install pipenv && pipenv install --dev --system
 
-# copy our project code
+# copy project code
 COPY . /opt/services/djangoapp/src
 RUN python manage.py collectstatic --no-input
 
