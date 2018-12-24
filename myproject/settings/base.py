@@ -1,29 +1,14 @@
 import os
-from urllib.parse import urljoin
-from decouple import config
+from decouple import Config, RepositoryEnv
 from django.utils.translation import ugettext_lazy as _
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 here = lambda *x: os.path.join(os.path.abspath(os.path.dirname(__file__)), *x)
 BASE_DIR = here('..', '..')
 
-# here = lambda *x: os.path.join(os.path.abspath(os.path.dirname(__file__)), *x)
-# BASE_DIR = here('..', '..')
-path = lambda *x: os.path.join(os.path.abspath(BASE_DIR), *x)
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
-
-# SECURITY WARNING: don't run with debug turned on in production!
-
-# Application definition
+DOTENV_FILE = os.path.join(BASE_DIR, 'config/postgres/myproject.env')
+env_config = Config(RepositoryEnv(DOTENV_FILE))
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -38,7 +23,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
 
-    'demo.front',
+    'myproject.front',
 ]
 
 MIDDLEWARE = [
@@ -57,13 +42,13 @@ MIDDLEWARE = [
 # Specify authorized hostnames in CORS_ORIGIN_WHITELIST
 CORS_ORIGIN_ALLOW_ALL = True
 
-ROOT_URLCONF = 'demo.urls'
+ROOT_URLCONF = 'myproject.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'demo/templates'),
+            os.path.join(BASE_DIR, 'myproject/templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -91,15 +76,15 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
 }
 
-WSGI_APPLICATION = 'demo.wsgi.application'
+WSGI_APPLICATION = 'myproject.wsgi.application'
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': 'localhost',
+        'USER': env_config.get('POSTGRES_USER'),
+        'NAME': env_config.get('POSTGRES_DB'),
+        'PASSWORD': env_config.get('POSTGRES_PASSWORD'),
+        'HOST': env_config.get('POSTGRES_SERVICE'),
         'PORT': '5432',
     }
 }
@@ -122,9 +107,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Internationalization
-# https://docs.djangoproject.com/en/2.0/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'  # Default language that Django will use if no translation is found
 
 LOCALE_PATHS = (
@@ -134,23 +116,17 @@ LOCALE_PATHS = (
 TIME_ZONE = 'Europe/Athens'
 
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
-MEDIA_ROOT = os.path.join(os.path.abspath(BASE_DIR), 'media')
-
-MEDIA_URL = '/media/'
-
 # Login urls
-LOGIN_URL = '/panel/login/'
+LOGIN_URL = '/login/'
 
-# The absolute path to the directory where collectstatic will collect static files for deployment
-STATIC_ROOT = path('static')
-# URL to use when referring to static files located in STATIC_ROOT (it is a prefix)
+# Static files
+__base = BASE_DIR
+if os.path.basename(os.path.abspath(BASE_DIR)) == 'src':
+    __base = os.path.abspath(os.path.join(BASE_DIR, os.pardir))
+STATIC_ROOT = os.path.join(__base, 'static')
 STATIC_URL = '/static/'
-# Additional locations the staticfiles app will traverse when using collectstatic
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'demo/static_files'),
-)
+MEDIA_ROOT = os.path.join(__base, 'media')
+MEDIA_URL = '/media/'

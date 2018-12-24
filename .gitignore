@@ -1,5 +1,5 @@
 .venv
 .vscode
-.env
 node_modules/
 */settings/local.py
+static/
