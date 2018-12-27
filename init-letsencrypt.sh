@@ -1,6 +1,6 @@
 #!/bin/bash
 
-domains=( "djangodemo2.ga" "www.djangodemo2.ga")
+domains=( "djangodemo3.ga" "www.djangodemo3.ga")
 rsa_key_size=4096
 data_path="./certbot"
 email="terzo.giannis@gmail.com"  #Adding a valid address is strongly recommended 
@@ -38,9 +38,6 @@ echo "### Downloading recommended TLS options ..."
 curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot-nginx/certbot_nginx/options-ssl-nginx.conf > "$data_path/conf/options-ssl-nginx.conf"
 curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot/ssl-dhparams.pem > "$data_path/conf/ssl-dhparams.pem"
 
-# ??? Change ownership of certbot/ dir
-sudo chown -R $USER:$USER $data_path
-
 echo "### Requesting initial certificate ..."
 
 #Join $domains to -d args
@@ -68,3 +65,6 @@ docker-compose run --rm --entrypoint "\
     --force-renewal" certbot
 
 docker-compose stop nginx
+
+# Give ownership of certbot directory to user deploy
+sudo chown -R deploy:deploy $data_path
