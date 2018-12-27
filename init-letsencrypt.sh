@@ -7,10 +7,13 @@ email="terzo.giannis@gmail.com"  #Adding a valid address is strongly recommended
 staging=0  #Set to 1 if you're just testing your setup to avoid hitting request limits
 
 echo "### Preparing directories in $data_path ..."
-rm -Rf "$data_path"
-mkdir -p "$data_path/www"
-mkdir -p "$data_path/conf/live/$domains"
 
+if ![ -d "$data_path"]
+then
+    rm -Rf "$data_path"
+    mkdir -p "$data_path/www"
+    mkdir -p "$data_path/conf/live/$domains"
+fi
 
 echo "### Creating dummy certificate ..."
 path="/etc/letsencrypt/live/$domains"
