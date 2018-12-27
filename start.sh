@@ -17,7 +17,7 @@ cd $PROJECT_ROOT
 
 if [ ! -f $PROJECT_ROOT/.build ]; then
   echo "Collecting and compiling statics"
-  pushd helloworld
+  pushd foobar
   python manage.py collectstatic --noinput
   popd
   date > $PROJECT_ROOT/.build
@@ -25,7 +25,7 @@ fi
 
 # Difference from article
 # CD to project as per comment above
-cd helloworld
-exec gunicorn helloworld.wsgi:application \
+cd foobar
+exec gunicorn foobar.wsgi:application \
     --bind 0.0.0.0:8000 \
     --workers 3

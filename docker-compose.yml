@@ -9,8 +9,6 @@ services:
       - dsne-django-nginx
     volumes:
       - dsne-django-static:/usr/src/app/static
-    ports:
-      - 8000:8000
 
   nginx:
     container_name: dsne-nginx
@@ -22,7 +20,8 @@ services:
     volumes:
       - dsne-django-static:/usr/src/app/static
     ports:
-      - 80:80
+      - 8000:80
+      # - 80:80
     depends_on:
       - django
 
