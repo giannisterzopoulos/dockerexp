@@ -4,3 +4,4 @@
 node_modules/
 */settings/local.py
 static/
+certbot/
