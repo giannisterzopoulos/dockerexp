@@ -1,6 +1,6 @@
 #!/bin/bash
 
-domains=( "djangodemo.ga" "www.djangodemo.ga" )
+domains=( "djangodemo.ga" )
 rsa_key_size=4096
 data_path="./certbot"
 email="terzo.giannis@gmail.com"  #Adding a valid address is strongly recommended 
@@ -8,12 +8,12 @@ staging=0  #Set to 1 if you're just testing your setup to avoid hitting request 
 
 echo "### Preparing directories in $data_path ..."
 
-if ![ -d "$data_path"]
-then
-    rm -Rf "$data_path"
-    mkdir -p "$data_path/www"
-    mkdir -p "$data_path/conf/live/$domains"
-fi
+# if ![ -d "$data_path"]
+# then
+rm -Rf "$data_path"
+mkdir -p "$data_path/www"
+mkdir -p "$data_path/conf/live/$domains"
+# fi
 
 echo "### Creating dummy certificate ..."
 path="/etc/letsencrypt/live/$domains"
