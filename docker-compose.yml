@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
 
   django:
@@ -12,21 +12,23 @@ services:
 
   nginx:
     container_name: dsne-nginx
-    build:
-      context: ./nginx
-      dockerfile: nginx.dockerfile
+    image: nginx:1.15-alpine
+    # build:
+    #   context: ./nginx
+    #   dockerfile: nginx.dockerfile
     networks:
       - dsne-django-nginx
     volumes:
-      - ./nginxg/nginx.conf:/etc/nginx/conf.d
+      - ./nginx:/etc/nginx/conf.d
       # .........
       - dsne-django-static:/usr/src/app/static
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
     ports:
-      - 8000:80
+      - 80:80
       - 443:443
-      # - 80:80
+      # - 8000:80
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
     depends_on:
       - django
 
@@ -35,6 +37,7 @@ services:
     volumes:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
 volumes:
   dsne-django-static:
