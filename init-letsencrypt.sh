@@ -40,7 +40,7 @@ curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot-nginx/c
 curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot/ssl-dhparams.pem > "$data_path/conf/ssl-dhparams.pem"
 
 # ??? Change ownership of certbot/ dir
-sudo chown -R $USER:$USER "$data_path"
+sudo chown -R $USER:$USER $data_path
 
 echo "### Requesting initial certificate ..."
 
