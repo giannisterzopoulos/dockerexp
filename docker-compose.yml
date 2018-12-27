@@ -18,6 +18,8 @@ services:
     networks:
       - dsne-django-nginx
     volumes:
+      - ./nginxg/nginx.conf:/etc/nginx/conf.d
+      # .........
       - dsne-django-static:/usr/src/app/static
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
