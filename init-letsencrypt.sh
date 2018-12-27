@@ -12,8 +12,6 @@ rm -Rf "$data_path"
 mkdir -p "$data_path/www"
 mkdir -p "$data_path/conf/live/$domains"
 
-sudo chown -R $USER:$USER "$data_path"
-
 echo "### Creating dummy certificate ..."
 path="/etc/letsencrypt/live/$domains"
 mkdir -p "$path"
@@ -40,6 +38,7 @@ echo "### Downloading recommended TLS options ..."
 curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot-nginx/certbot_nginx/options-ssl-nginx.conf > "$data_path/conf/options-ssl-nginx.conf"
 curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot/ssl-dhparams.pem > "$data_path/conf/ssl-dhparams.pem"
 
+sudo chown -R $USER:$USER "$data_path"
 
 echo "### Requesting initial certificate ..."
 
