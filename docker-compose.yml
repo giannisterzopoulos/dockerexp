@@ -1,49 +1,34 @@
-version: '3'
+version: '2'
 
 services:
-  djangoapp:
-    build: .
-    volumes:
-      - .:/opt/services/djangoapp/src
-      - static_volume:/opt/services/djangoapp/static
-      - media_volume:/opt/services/djangoapp/media
+  django:
+    container_name: dsne-django
+    build:
+      context: .
     networks:
-      - nginx_network
-      - project_network
-    depends_on:  # <-- wait for postgres to be ready before starting this service
-      - myproject
+      - dsne-django-nginx
+    volumes:
+      - dsne-django-static:/opt/djangoapp/src/static
+    ports:
+      - 8000:8000
 
   nginx:
-    image: nginx:1.13
-    ports:
-      - 8000:80
-    volumes:
-      - ./config/nginx/conf.d:/etc/nginx/conf.d
-      - static_volume:/opt/services/djangoapp/static
-      - media_volume:/opt/services/djangoapp/media
-    depends_on:  # <-- wait for djangoapp to be ready before starting this service
-      - djangoapp
+    container_name: dsne-nginx
+    build:
+      context: ./nginx
+      dockerfile: nginx.dockerfile
     networks:
-      - nginx_network
-
-  myproject:  # <-- IMPORTANT: same name as in DATABASES setting
-    image: postgres:10
-    ports:
-      - 5432:5432
-    env_file:
-      - config/postgres/myproject.env
-    networks:
-      - project_network
+      - dsne-django-nginx
     volumes:
-      - project_volume:/var/lib/postgresql/data
-
-networks:
-  nginx_network:
-    driver: bridge
-  project_network:
-    driver: bridge
+      - dsne-django-static:/opt/djangoapp/src/static
+    ports:
+      - 80:80
+    depends_on:
+      - django
 
 volumes:
-  project_volume:
-  static_volume:
-  media_volume:
+  dsne-django-static:
+
+networks:
+  dsne-django-nginx:
+    driver: bridge

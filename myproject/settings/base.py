@@ -5,9 +5,13 @@ from django.utils.translation import ugettext_lazy as _
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 here = lambda *x: os.path.join(os.path.abspath(os.path.dirname(__file__)), *x)
-BASE_DIR = here('..', '..')
+# BASE_DIR = here('..', '..')
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-DOTENV_FILE = os.path.join(BASE_DIR, 'config/postgres/myproject.env')
+DOTENV_FILE = os.path.join(here('..', '..'), 'config/postgres/myproject.env')
+print('-----------')
+print(DOTENV_FILE)
+
 env_config = Config(RepositoryEnv(DOTENV_FILE))
 
 INSTALLED_APPS = [
@@ -124,9 +128,29 @@ LOGIN_URL = '/login/'
 
 # Static files
 __base = BASE_DIR
-if os.path.basename(os.path.abspath(BASE_DIR)) == 'src':
-    __base = os.path.abspath(os.path.join(BASE_DIR, os.pardir))
-STATIC_ROOT = os.path.join(__base, 'static')
+
+# print(BASE_DIR)
+# print()
+
+# print(__base)
+
+# if os.path.basename(os.path.abspath(BASE_DIR)) == 'src':
+#     __base = os.path.abspath(os.path.join(BASE_DIR, os.pardir))
+
+# print(__base)
+
+# __base = '/opt/djangoapp/src'
+
+# tmp_base = os.path.dirname(os.path.dirname(__file__))
+
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static')
+# STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), '..', 'static')
+
+print('---------')
+# print(DOTENV_FILE)
+print(STATIC_ROOT)
+
 STATIC_URL = '/static/'
-MEDIA_ROOT = os.path.join(__base, 'media')
+# STATIC_ROOT = os.path.join(__base, 'static')
 MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(__base, 'media')
