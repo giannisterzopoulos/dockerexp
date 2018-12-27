@@ -33,7 +33,6 @@ sudo chmod +x init-letsencrypt.sh
 sudo ./init-letsencrypt.sh
 
 # Set up firewall
-sudo ufw enable
 sudo ufw allow 22  (*IMPORTANT)
 sudo ufw allow 80
 sudo ufw allow 443
