@@ -13,9 +13,6 @@ services:
   nginx:
     container_name: dsne-nginx
     image: nginx:1.15-alpine
-    # build:
-    #   context: ./nginx
-    #   dockerfile: nginx.dockerfile
     networks:
       - dsne-django-nginx
     volumes:
