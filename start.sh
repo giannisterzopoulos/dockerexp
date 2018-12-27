@@ -1,21 +1,31 @@
 #!/bin/bash
+#
+#see https://semaphoreci.com/community/tutorials/dockerizing-a-python-django-web-application
+#but also the inclusion of cd to project name in start.sh as mentioned by rock in comments is important
+#This also means that you run the start script from root of project not inside app
+#ie [projectroot]/bin/bash start.sh not [approot]../start.sh
 
 # Start Gunicorn processes
+# workers which are the number of threads that will handle the requests coming into your application
+# Gunicorn recommends this value to be set at (2 x $num_cores) + 1.
+# You can read more on configuration of Gunicorn in their documentation.
+# 
 echo Starting Gunicorn.
 
 #make sure we are at project root /usr/src/app
 cd $PROJECT_ROOT
 
 if [ ! -f $PROJECT_ROOT/.build ]; then
-  echo "Collecting static files"
-  #pushd myproject
+  echo "Collecting and compiling statics"
+  pushd foobar
   python manage.py collectstatic --noinput
-  #popd
+  popd
   date > $PROJECT_ROOT/.build
 fi
 
-# cd myproject
-
-exec gunicorn myproject.wsgi:application \
+# Difference from article
+# CD to project as per comment above
+cd foobar
+exec gunicorn foobar.wsgi:application \
     --bind 0.0.0.0:8000 \
     --workers 3
