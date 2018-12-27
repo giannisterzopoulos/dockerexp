@@ -25,7 +25,7 @@ SECRET_KEY = '%c_!+j)iq4d&+i3(yioc^k8#-t8ow@39b&7h!o(67dg%b5u0+9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0', '.djangodemo4.ga']
+ALLOWED_HOSTS = ['0.0.0.0', '.djangodemo5.ga']
 
 
 # Application definition
