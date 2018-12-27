@@ -1,6 +1,6 @@
 #!/bin/bash
 
-domains=( "djangodemo.ga" )
+domains=( "djangodemo.ga" "www.djangodemo.ga")
 rsa_key_size=4096
 data_path="./certbot"
 email="terzo.giannis@gmail.com"  #Adding a valid address is strongly recommended 
