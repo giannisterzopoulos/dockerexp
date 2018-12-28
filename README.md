@@ -1,10 +1,9 @@
 
-
 ## TODO:
-- Docker daemonize
-- Add SSL - certbot
+- Change container names
+- Add Postgres
 - Logging
-- Need for alpine image?
+- Change to alpine images?
 
 ### Demo project
 
