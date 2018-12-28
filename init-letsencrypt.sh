@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# domains=( "djangodemo5.ga" "www.djangodemo5.ga")
 domains=( "djangodemo5.ga" )
+email="terzo.giannis@gmail.com"  #Adding a valid address is strongly recommended 
+
 rsa_key_size=4096
 data_path="./certbot"
-email="terzo.giannis@gmail.com"  #Adding a valid address is strongly recommended 
 staging=0  #Set to 1 if you're just testing your setup to avoid hitting request limits
 
 echo "### Preparing directories in $data_path ..."
