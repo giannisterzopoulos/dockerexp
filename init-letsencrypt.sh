@@ -16,7 +16,7 @@ mkdir -p "$data_path/conf/live/$domains"
 echo "### Creating dummy certificate ..."
 path="/etc/letsencrypt/live/$domains"
 mkdir -p "$path"
-docker-compose run --rm --entrypoint "\
+docker-compose run -f docker-compose-prod.yml --rm --entrypoint "\
     openssl req -x509 -nodes -newkey rsa:1024 -days 1\
       -keyout '$path/privkey.pem' \
       -out '$path/fullchain.pem' \
@@ -29,7 +29,7 @@ curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot/ssl-dhp
 
 
 echo "### Starting nginx ..."
-docker-compose up -d nginx
+docker-compose up -f docker-compose-prod.yml -d nginx
 
 
 echo "### Deleting dummy certificate ..."
@@ -56,7 +56,7 @@ esac
 #Enable staging mode if needed
 if [ $staging != "0" ]; then staging_arg="--staging"; fi
 
-docker-compose run --rm --entrypoint "\
+docker-compose run -f docker-compose-prod.yml --rm --entrypoint "\
   certbot certonly --webroot -w /var/www/certbot \
     $staging_arg \
     $email_arg \

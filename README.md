@@ -12,7 +12,7 @@ sudo ufw allow 22
 sudo ufw allow 80
 sudo ufw allow 443
 ```
-**NOTE** It is important to allow port 22 in order to make SSH connections.
+**NOTE**: It is important to allow port 22 in order to make SSH connections.
 
 #### Add user deploy
 It is recommended to add a user with sudo privileges to make deployments
