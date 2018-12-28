@@ -1,6 +1,7 @@
 
 ## TODO:
 - Change project structure?
+- Test locally on Windows
 - Logging
 - Change to alpine images?
 
@@ -46,7 +47,7 @@ docker-compose -f docker-compose.prod.yml build
 
 #### Connect to Postgres shell
 ```sh
-docker exec -it dockerexp_myproject_1 psql -d myproject -U db_user
+docker exec -it postgres-0 psql -d foobar -U db_user
 ```
 
 #### Issue Let's Encrypt certificate
