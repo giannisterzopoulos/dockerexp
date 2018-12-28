@@ -1,8 +1,8 @@
 
 ## TODO:
+- Change project structure?
 - Logging
 - Change to alpine images?
-
 
 ---
 #### Set up server firewall
