@@ -11,6 +11,11 @@ services:
     volumes:
       - static_volume:/usr/src/app/static
       - media_volume:/usr/src/app/media
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
     depends_on:
       - postgres
 
@@ -25,6 +30,11 @@ services:
       - ./certbot/www:/var/www/certbot
       - static_volume:/usr/src/app/static
       - media_volume:/usr/src/app/static
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
     ports:
       - 80:80
       - 443:443
@@ -43,6 +53,11 @@ services:
       - foobar_network
     volumes:
       - foobar_volume:/var/lib/postgresql/data
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
 
   certbot:
     container_name: foobar_certbot
@@ -50,6 +65,11 @@ services:
     volumes:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
 volumes:

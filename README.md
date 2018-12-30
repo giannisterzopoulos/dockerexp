@@ -1,6 +1,7 @@
 
 ## TODO:
 - Logging
+- Build my own image
 - Update README
 
 ---
