@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 here = lambda *x: os.path.join(os.path.abspath(os.path.dirname(__file__)), *x)
-BASE_DIR = here('..', '..')
+BASE_DIR = here('..')
 
 DOTENV_FILE = os.path.join(BASE_DIR, '..', 'config/postgres/foobar.env')
 env_config = Config(RepositoryEnv(DOTENV_FILE))
@@ -23,7 +23,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
 
-    # 'foobar.',
+    'foobar.front',
 ]
 
 MIDDLEWARE = [
@@ -48,7 +48,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'foobar/templates'),
+            os.path.join(BASE_DIR, 'templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -81,11 +81,11 @@ WSGI_APPLICATION = 'foobar.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'USER': env_config.get('POSTGRES_USER'),
         'NAME': env_config.get('POSTGRES_DB'),
+        'USER': env_config.get('POSTGRES_USER'),
         'PASSWORD': env_config.get('POSTGRES_PASSWORD'),
         'HOST': env_config.get('POSTGRES_SERVICE'),
-        'PORT': '5432',
+        'PORT': env_config.get('POSTGRES_PORT'),
     }
 }
 
@@ -125,5 +125,8 @@ LOGIN_URL = '/login/'
 # Static files
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STATIC_ROOT = os.path.join(BASE_DIR, '..', 'static')
+MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'media')
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static_files'),
+)

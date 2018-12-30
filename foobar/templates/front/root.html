@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'front/css/root.css' %}" />
+{% endblock extra_css %}
+
+{% block page_title %}HOME{% endblock %}
+
+<!-- ------------------------------ -->
+
+{% block content %}
+
+<br>
+<div class="header"> {{ text }} </div>
+
+{% endblock content %}

@@ -32,7 +32,7 @@ services:
 
   postgres:  # <-- IMPORTANT: same name as in DATABASES setting
     container_name: foobar_postgres
-    image: postgres:10
+    image: postgres:10-alpine
     ports:
       - 5432:5432
     env_file:

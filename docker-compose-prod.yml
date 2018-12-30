@@ -16,7 +16,7 @@ services:
 
   nginx:
     container_name: foobar_nginx
-    image: nginx:1.15-alpine
+    image: nginx:1.15
     networks:
       - django_nginx
     volumes:

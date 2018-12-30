@@ -55,3 +55,7 @@ docker exec -it postgres-0 psql -d foobar -U db_user
 sudo chmod +x init-letsencrypt.sh
 sudo ./init-letsencrypt.sh
 ```
+
+To use "python manage.py runserver" in development:
+In /etc/postgresql/8.3/main/postgresql.conf :
+Change "port = 5432" to 5433 to avoid overlapping ports with docker
