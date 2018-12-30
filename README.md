@@ -61,3 +61,5 @@ sudo ./init-letsencrypt.sh
 To use "python manage.py runserver" in development:
 In /etc/postgresql/8.3/main/postgresql.conf :
 Change "port = 5432" to 5433 to avoid overlapping ports with docker
+In config/postgres/foobar.env :
+Change POSTGRES_SERVICE to localhost and POSTGRES_PORT to 5433
