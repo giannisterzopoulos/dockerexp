@@ -1,9 +1,7 @@
 
 ## TODO:
-- Change project structure?
-- Test locally on Windows
 - Logging
-- Change to alpine images?
+- Update README
 
 ---
 #### Set up server firewall
@@ -33,6 +31,10 @@ and
 
 Create **foobar/settings/local.py** and specify DEBUG, ALLOWED_HOSTS and SECRET_KEY.
 Change database credentials in **config/postgres/foobar.env**
+
+Specify POSTGRES_DB, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_SERVICE
+and POSTGRES_PORT. POSTGRES_SERVICE needs to be the same with docker service.
+
 Change nginx configuration in **config/nginx/dev/nginx.conf**
 
 ```sh
