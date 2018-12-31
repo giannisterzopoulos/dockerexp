@@ -1,6 +1,6 @@
 
 ## TODO:
-- Logging
+- Use Restart Policy / Need swarm?
 - Build my own image
 - Update README
 
