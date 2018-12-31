@@ -69,10 +69,10 @@ services:
         max-size: "200k"
         max-file: "10"
     deploy:
-    restart_policy:
-      condition: on-failure
-      delay: 3s
-      max_attempts: 3
+      restart_policy:
+        condition: on-failure
+        delay: 3s
+        max_attempts: 3
 
   certbot:
     container_name: foobar_certbot
