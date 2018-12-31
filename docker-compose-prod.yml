@@ -18,6 +18,10 @@ services:
         max-file: "10"
     depends_on:
       - postgres
+    restart_policy:
+        condition: on-failure
+        delay: 3s
+        max_attempts: 3
 
   nginx:
     container_name: foobar_nginx
@@ -41,6 +45,10 @@ services:
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
     depends_on:
       - djangoapp
+    restart_policy:
+        condition: on-failure
+        delay: 3s
+        max_attempts: 3
 
   postgres:  # <-- IMPORTANT: same name as in DATABASES setting
     container_name: foobar_postgres
@@ -58,6 +66,10 @@ services:
       options:
         max-size: "200k"
         max-file: "10"
+    restart_policy:
+      condition: on-failure
+      delay: 3s
+      max_attempts: 3
 
   certbot:
     container_name: foobar_certbot
@@ -71,6 +83,10 @@ services:
         max-size: "200k"
         max-file: "10"
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    restart_policy:
+        condition: on-failure
+        delay: 3s
+        max_attempts: 3
 
 volumes:
   foobar_volume:
