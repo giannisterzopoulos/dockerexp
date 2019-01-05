@@ -8,8 +8,8 @@ services:
       - django_nginx
       - foobar_network
     volumes:
-      - static_volume:/usr/src/app/static
-      - media_volume:/usr/src/app/media
+      - static_volume:/opt/app/static
+      - media_volume:/opt/app/media
     logging:
       driver: "json-file"
       options:
@@ -38,8 +38,8 @@ services:
       - ./config/nginx/prod:/etc/nginx/conf.d
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
-      - static_volume:/usr/src/app/static
-      - media_volume:/usr/src/app/media
+      - static_volume:/opt/app/static
+      - media_volume:/opt/app/media
     logging:
       driver: "json-file"
       options:

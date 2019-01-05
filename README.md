@@ -1,9 +1,6 @@
 
 ## TODO:
-- Build and Host my own image - Use Docker swarm
-- Use Restart Policy
-- Scale Nginx
-- Update README
+- WHY nginx doesn't find static/ dir
 
 
 # Need to push the image first in order to use Docker Swarm
