@@ -30,9 +30,9 @@ docker run -d -p 50000:5000 --restart always --name custom-registry registry:lat
 - Build the image
 docker-compose -f docker-compose-swarm.yml up --build --no-start
 (--> just use docker-compose build)
-docker tag dockerexp_djangoapp:latest localhost:50000/djangoapp:latest
+docker tag dockerexp_djangoapp:latest localhost:50000/djangoapp:1
 - Push the image to local registry
-docker push localhost:50000/djangoapp
+docker push localhost:50000/djangoapp:1
 
 
 (init-letsencrypt.sh on all nodes using the nginx service)
