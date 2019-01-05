@@ -7,6 +7,7 @@ cd $PROJECT_ROOT
 if [ ! -f $PROJECT_ROOT/.build ]; then
   echo "Collecting and compiling statics"
   python manage.py collectstatic --noinput
+  python manage.py migrate
   date > $PROJECT_ROOT/.build
 fi
 

@@ -44,6 +44,7 @@ docker stack services foobar_stack
 docker stack ps foobar_stack
 -------
 docker ps (to find container id)
+(no needed - done in start.sh)
 docker exec -it (container id) /bin/bash -c "./manage.py migrate"
 docker exec -it (container id) /bin/bash -c "./manage.py collectstatic"
 
