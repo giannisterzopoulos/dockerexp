@@ -1,4 +1,4 @@
-version: '3'
+version: '3.4'
 
 services:
   djangoapp:
@@ -9,8 +9,9 @@ services:
       - django_nginx
       - foobar_network
     volumes:
-      - static_volume:/usr/src/app/static
-      - media_volume:/usr/src/app/media
+      - .:/opt/app
+      - static_volume:/opt/app/static
+      - media_volume:/opt/app/media
     depends_on:
       - postgres
 
@@ -21,8 +22,8 @@ services:
       - django_nginx
     volumes:
       - ./config/nginx/dev:/etc/nginx/conf.d
-      - static_volume:/usr/src/app/static
-      - media_volume:/usr/src/app/static
+      - static_volume:/opt/app/static
+      - media_volume:/opt/app/static
     ports:
       - 443:443
       - 8000:80

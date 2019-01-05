@@ -65,7 +65,7 @@ docker-compose -f docker-compose-prod.yml run --rm --entrypoint "\
     --agree-tos \
     --force-renewal" certbot
 
-# docker-compose stop nginx
+docker-compose stop nginx
 
 # Give ownership of certbot directory to user deploy
 sudo chown -R deploy:deploy $data_path

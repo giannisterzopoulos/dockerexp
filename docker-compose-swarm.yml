@@ -1,10 +1,8 @@
-version: '3'
+version: '3.4'
 
 services:
   djangoapp:
-    container_name: foobar_djangoapp
-    build:
-      context: .
+    image: terzopoulos/django:test1
     networks:
       - django_nginx
       - foobar_network
@@ -19,13 +17,16 @@ services:
     depends_on:
       - postgres
     deploy:
+      replicas: 2
+      update_config:
+        parallelism: 2
+        delay: 10s
       restart_policy:
-          condition: on-failure
-          delay: 3s
-          max_attempts: 3
+        condition: on-failure
+        delay: 3s
+        max_attempts: 3
 
   nginx:
-    container_name: foobar_nginx
     image: nginx:1.15
     networks:
       - django_nginx
@@ -34,7 +35,7 @@ services:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
       - static_volume:/usr/src/app/static
-      - media_volume:/usr/src/app/static
+      - media_volume:/usr/src/app/media
     logging:
       driver: "json-file"
       options:
@@ -47,13 +48,13 @@ services:
     depends_on:
       - djangoapp
     deploy:
+      replicas: 1
       restart_policy:
           condition: on-failure
           delay: 3s
           max_attempts: 3
 
   postgres:  # <-- IMPORTANT: same name as in DATABASES setting
-    container_name: foobar_postgres
     image: postgres:10
     ports:
       - 5432:5432
@@ -69,13 +70,10 @@ services:
         max-size: "200k"
         max-file: "10"
     deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 3s
-        max_attempts: 3
+      placement:
+        constraints: [node.role == manager]
 
   certbot:
-    container_name: foobar_certbot
     image: certbot/certbot
     volumes:
       - ./certbot/conf:/etc/letsencrypt
@@ -87,10 +85,13 @@ services:
         max-file: "10"
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
     deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
       restart_policy:
-          condition: on-failure
-          delay: 3s
-          max_attempts: 3
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
 
 volumes:
   foobar_volume:
@@ -99,6 +100,4 @@ volumes:
 
 networks:
   django_nginx:
-    driver: bridge
   foobar_network:
-    driver: bridge

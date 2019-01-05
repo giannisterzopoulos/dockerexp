@@ -1,16 +1,47 @@
 
 ## TODO:
-- Use Restart Policy / Need swarm?
-- Build my own image
+- Build and Host my own image - Use Docker swarm
+- Use Restart Policy
+- Scale Nginx
 - Update README
+
+
+# Need to push the image first in order to use Docker Swarm
+docker build ...
+sudo docker run --name django -d image_id
+docker commit -m "initial commit" django terzopoulos/django:test1
+docker push terzopoulos/django
+
+# On server
+docker pull ...
+docker swarm init
+docker build -t hello -f hello-service/Dockerfile hello-service
+<!-- docker stack deploy --with-registry-auth -c ./docker-compose.yml talk -->
+docker service scale swarm_demo_nginx=3
+
+docker service logs votingapp_nginx
+
+docker service ls
+docker stack services swarm_demo
+docker service ps swarm_demo_nginx
+docker node ls
+docker stack rm stackdemo  <!-- Bring the stack down -->
+
+
+Server needs to have ports 80 and 443 open in inbound.
+
+For Swarm:
+TCP port 2377 for cluster management communications
+TCP and UDP port 7946 for communication among nodes
+UDP port 4789 for overlay network traffic
+
 
 ---
 #### Set up server firewall
 ```sh
 sudo ufw enable
-sudo ufw allow 22
-sudo ufw allow 80
-sudo ufw allow 443
+sudo ufw allow 22,80,443,2377,7946/tcp
+sudo ufw allow 4789,7946/udp
 ```
 **NOTE**: It is important to allow port 22 in order to make SSH connections.
 
@@ -36,9 +67,9 @@ Change database credentials in **config/postgres/foobar.env**
 Specify POSTGRES_DB, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_SERVICE
 and POSTGRES_PORT. POSTGRES_SERVICE needs to be the same with docker service.
 
-Change nginx configuration in **config/nginx/dev/nginx.conf**
+Change nginx configuration in **config/nginx/dev/nginx.conf** if needed.
 
-```sh
+```sh   
 docker-compose build
 docker-compose run --rm djangoapp /bin/bash -c "./manage.py migrate"
 ```
@@ -65,5 +96,5 @@ Change "port = 5432" to 5433 to avoid overlapping ports with docker
 In config/postgres/foobar.env :
 Change POSTGRES_SERVICE to localhost and POSTGRES_PORT to 5433
 
-LOGS
-logs are saved in /var/lib/docker/containers/container_id/container_id-json.log
+<!-- LOGS
+logs are saved in /var/lib/docker/containers/container_id/container_id-json.log -->

@@ -1,15 +1,16 @@
 
-FROM python:3.4
+FROM python:3.4.9
 
-ENV PROJECT_ROOT /usr/src/app
+ENV PROJECT_ROOT /opt/app
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+RUN mkdir -p /opt/app
+WORKDIR /opt/app
 
-COPY Pipfile Pipfile.lock /usr/src/app/
+COPY Pipfile Pipfile.lock /opt/app/
+
 RUN pip install pipenv && pipenv install --dev --system
 
-COPY . /usr/src/app/
+COPY . /opt/app/
 
 COPY start.sh /start.sh
 
