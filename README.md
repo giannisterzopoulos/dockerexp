@@ -28,7 +28,7 @@ docker stack rm stackdemo  <!-- Bring the stack down -->
 - Set up local registry
 docker run -d -p 50000:5000 --restart always --name custom-registry registry:latest
 - Build the image
-docker-compose -f docker-compose-swarm.yml up --build
+docker-compose -f docker-compose-swarm.yml up --build --no-start
 (--> just use docker-compose build)
 docker tag dockerexp_djangoapp:latest localhost:50000/djangoapp:latest
 - Push the image to local registry
