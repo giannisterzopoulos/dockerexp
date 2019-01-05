@@ -8,7 +8,7 @@ cd $PROJECT_ROOT
 echo "Collecting and compiling statics"
 python manage.py collectstatic --noinput
 python manage.py migrate
-date > $PROJECT_ROOT/.build
+# date > $PROJECT_ROOT/.build
 #fi
 
 exec gunicorn foobar.wsgi:application \
