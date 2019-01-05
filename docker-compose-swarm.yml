@@ -2,7 +2,8 @@ version: '3.4'
 
 services:
   djangoapp:
-    image: terzopoulos/django:test1
+    # image: terzopoulos/django:test1
+    image: localhost:50000/djangoapp
     networks:
       - django_nginx
       - foobar_network
@@ -18,6 +19,9 @@ services:
       - postgres
     deploy:
       replicas: 1
+      placement:
+        constraints: [node.role == manager]
+        # constraints: [node.hostname == server01]
       update_config:
         parallelism: 2
         delay: 10s

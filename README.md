@@ -27,9 +27,31 @@ docker service ps swarm_demo_nginx
 docker node ls
 docker stack rm stackdemo  <!-- Bring the stack down -->
 
+************************
+- Set up local registry
+docker run -d -p 50000:5000 --restart always --name custom-registry registry:latest
+- Build the image
+docker-compose -f docker-compose-swarm.yml up --build
+(--> just use docker-compose build)
+docker tag dockerexp_djangoapp:latest localhost:50000/djangoapp:latest
+- Push the image to local registry
+docker push localhost:50000/djangoapp
+
+
+(init-letsencrypt.sh on all nodes using the nginx service)
+<!-- docker pull terzopoulos/django:test1 -->
+docker swarm init
+docker swarm join...
+docker stack deploy -c docker-compose-swarm.yml foobar_stack
+docker stack services foobar_stack
+docker stack ps foobar_stack
+-------
+docker ps (to find container id)
+docker exec -it (container id) /bin/bash -c "./manage.py migrate"
+docker exec -it (container id) /bin/bash -c "./manage.py collectstatic"
+
 
 Server needs to have ports 80 and 443 open in inbound.
-
 For Swarm:
 TCP port 2377 for cluster management communications
 TCP and UDP port 7946 for communication among nodes
