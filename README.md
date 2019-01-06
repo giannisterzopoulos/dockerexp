@@ -1,9 +1,10 @@
 
 ## TODO:
-- WHY nginx doesn't find static/ dir
+--> Docker doesn't know about collectstatic on 2nd node
+Use cannister.io (or smth similar) for a private repo
 
 
-# Need to push the image first in order to use Docker Swarm
+<!-- # Need to push the image first in order to use Docker Swarm
 docker build ...
 sudo docker run --name django -d image_id
 docker commit -m "initial commit" django terzopoulos/django:test1
@@ -13,7 +14,6 @@ docker push terzopoulos/django
 docker pull ...
 docker swarm init
 docker build -t hello -f hello-service/Dockerfile hello-service
-<!-- docker stack deploy --with-registry-auth -c ./docker-compose.yml talk -->
 docker service scale swarm_demo_nginx=3
 
 docker service logs votingapp_nginx
@@ -22,7 +22,7 @@ docker service ls
 docker stack services swarm_demo
 docker service ps swarm_demo_nginx
 docker node ls
-docker stack rm stackdemo  <!-- Bring the stack down -->
+docker stack rm stackdemo  -->
 
 ************************
 - Set up local registry
@@ -48,6 +48,7 @@ docker ps (to find container id)
 docker exec -it (container id) /bin/bash -c "./manage.py migrate"
 docker exec -it (container id) /bin/bash -c "./manage.py collectstatic"
 
+docker service logs votingapp_nginx
 
 Server needs to have ports 80 and 443 open in inbound.
 For Swarm:
