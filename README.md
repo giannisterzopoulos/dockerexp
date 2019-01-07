@@ -18,7 +18,7 @@ docker push cloud.canister.io:5000/username/my-repo
 docker pull cloud.canister.io:5000/terzopoulos/demorepo
 docker swarm init
 docker swarm join...
-docker stack deploy -c docker-compose-swarm.yml foobar_stack
+docker stack deploy -c docker-swarm.yml foobar_stack
 docker stack services foobar_stack
 docker stack ps foobar_stack
 ----
