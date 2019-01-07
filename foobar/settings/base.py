@@ -1,14 +1,16 @@
 import os
 from decouple import Config, RepositoryEnv
 from django.utils.translation import ugettext_lazy as _
+from .local import *
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 here = lambda *x: os.path.join(os.path.abspath(os.path.dirname(__file__)), *x)
 BASE_DIR = here('..')
 
-DOTENV_FILE = os.path.join(BASE_DIR, '..', 'config/postgres/foobar.env')
-env_config = Config(RepositoryEnv(DOTENV_FILE))
+POSTGRES_CONF = os.path.join(BASE_DIR, '..', POSTGRES_ENV)
+
+env_config = Config(RepositoryEnv(POSTGRES_CONF))
 
 INSTALLED_APPS = [
     'django.contrib.admin',

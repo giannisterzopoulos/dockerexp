@@ -1,54 +1,32 @@
 
 ## TODO:
---> Docker doesn't know about collectstatic on 2nd node
-Use cannister.io (or smth similar) for a private repo
 
+*** Run on 1 node with Docker Compose
+docker-compose build
+docker-compose up -d ....... (restart?)
 
-<!-- # Need to push the image first in order to use Docker Swarm
-docker build ...
-sudo docker run --name django -d image_id
-docker commit -m "initial commit" django terzopoulos/django:test1
-docker push terzopoulos/django
-
-# On server
-docker pull ...
-docker swarm init
-docker build -t hello -f hello-service/Dockerfile hello-service
-docker service scale swarm_demo_nginx=3
-
-docker service logs votingapp_nginx
-
-docker service ls
-docker stack services swarm_demo
-docker service ps swarm_demo_nginx
-docker node ls
-docker stack rm stackdemo  -->
-
-************************
-- Set up local registry
-docker run -d -p 50000:5000 --restart always --name custom-registry registry:latest
-- Build the image
-docker-compose -f docker-compose-swarm.yml up --build --no-start
-(--> just use docker-compose build)
-docker tag dockerexp_djangoapp:latest localhost:50000/djangoapp:1
-- Push the image to local registry
-docker push localhost:50000/djangoapp:1
-
-
-(init-letsencrypt.sh on all nodes using the nginx service)
-<!-- docker pull terzopoulos/django:test1 -->
+*** Run on multiple nodes with Docker Swarm
+-- Build the image and push to registry
+docker-compose build
+docker login cloud.canister.io:5000
+docker tag (image_id) cloud.canister.io:5000/terzopoulos/myrepo:latest
+docker push cloud.canister.io:5000/username/my-repo
+----
+(run init-letsencrypt.sh on all nodes using the nginx service)
+docker pull cloud.canister.io:5000/terzopoulos/demorepo
 docker swarm init
 docker swarm join...
 docker stack deploy -c docker-compose-swarm.yml foobar_stack
 docker stack services foobar_stack
 docker stack ps foobar_stack
--------
-docker ps (to find container id)
-(no needed - done in start.sh)
-docker exec -it (container id) /bin/bash -c "./manage.py migrate"
-docker exec -it (container id) /bin/bash -c "./manage.py collectstatic"
+----
+docker ps (to find container_id)
+docker exec -it (container_id) /bin/sh -c "./manage.py migrate"
+docker exec -it (container_id) /bin/sh -c "./manage.py collectstatic"
+docker service logs foobar_nginx
+-- docker service scale foobar_stack_nginx=2
 
-docker service logs votingapp_nginx
+-----------------------------------------
 
 Server needs to have ports 80 and 443 open in inbound.
 For Swarm:

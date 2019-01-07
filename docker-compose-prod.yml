@@ -2,6 +2,7 @@ version: '3.4'
 
 services:
   djangoapp:
+    restart: always
     container_name: foobar_djangoapp
     build:
       context: .
@@ -17,11 +18,12 @@ services:
 
   nginx:
     image: nginx:1.15
+    restart: always
     container_name: foobar_nginx
     networks:
       - django_nginx
     volumes:
-      - ./config/nginx/dev:/etc/nginx/conf.d
+      - ./config/nginx/prod:/etc/nginx/conf.d
       - static_volume:/opt/app/static
       - media_volume:/opt/app/static
     ports:
@@ -33,15 +35,30 @@ services:
 
   postgres:  # <-- IMPORTANT: same name as in DATABASES setting
     image: postgres:10
+    restart: always
     container_name: foobar_postgres
     ports:
       - 5432:5432
     env_file:
-      - ./config/postgres/conf.env
+      - config/postgres/conf.env
     networks:
       - foobar_network
     volumes:
       - foobar_volume:/var/lib/postgresql/data
+  
+  certbot:
+    image: certbot/certbot
+    restart: always
+    container_name: foobar_certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
 volumes:
   foobar_volume:
