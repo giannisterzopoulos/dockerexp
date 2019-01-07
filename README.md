@@ -1,9 +1,11 @@
 
 ## TODO:
 
+(Set up directories postgres ...)
+
 *** Run on 1 node with Docker Compose
-docker-compose build
-docker-compose up -d ....... (restart?)
+docker-compose -f docker-compose-prod.yml build
+docker-compose -f docker-compose-prod.yml up -d
 
 *** Run on multiple nodes with Docker Swarm
 -- Build the image and push to registry
