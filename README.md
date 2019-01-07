@@ -10,9 +10,9 @@ docker-compose -f docker-compose-prod.yml up -d
 *** Run on multiple nodes with Docker Swarm
 -- Build the image and push to registry
 docker-compose build
+docker tag (image_id) cloud.canister.io:5000/terzopoulos/demorepo:latest
 docker login cloud.canister.io:5000
-docker tag (image_id) cloud.canister.io:5000/terzopoulos/myrepo:latest
-docker push cloud.canister.io:5000/username/my-repo
+docker push cloud.canister.io:5000/terzopoulos/demorepo
 ----
 (run init-letsencrypt.sh on all nodes using the nginx service)
 docker pull cloud.canister.io:5000/terzopoulos/demorepo

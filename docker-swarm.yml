@@ -62,7 +62,7 @@ services:
     ports:
       - 5432:5432
     env_file:
-      - config/postgres/prod.env
+      - config/postgres/conf.env
     networks:
       - foobar_network
     volumes:
