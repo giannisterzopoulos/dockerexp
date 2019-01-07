@@ -1,6 +1,7 @@
 
 ## TODO:
 - Is it convenient for development? (python manage.py runserver)
+- Research number of managers-workers for swarm
 
 
 (Set up directories postgres ...)
