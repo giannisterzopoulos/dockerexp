@@ -1,5 +1,7 @@
 
 ## TODO:
+- Is it convenient for development? (python manage.py runserver)
+
 
 (Set up directories postgres ...)
 
