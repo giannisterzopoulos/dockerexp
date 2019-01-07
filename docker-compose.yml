@@ -17,7 +17,7 @@ services:
 
   nginx:
     container_name: foobar_nginx
-    image: nginx:1.15-alpine
+    image: nginx:1.15
     networks:
       - django_nginx
     volumes:
@@ -33,7 +33,7 @@ services:
 
   postgres:  # <-- IMPORTANT: same name as in DATABASES setting
     container_name: foobar_postgres
-    image: postgres:10-alpine
+    image: postgres:10
     ports:
       - 5432:5432
     env_file:

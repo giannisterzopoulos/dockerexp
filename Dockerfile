@@ -9,7 +9,7 @@ WORKDIR /opt/app
 COPY . /opt/app/
 
 # Install dependencies from Pipfile, making sure psycopg2 is
-# successfully installed. Remove redundant packages in the end.
+# successfully installed. Remove the extra packages in the end.
 RUN apk add --no-cache --virtual .build-deps \
     ca-certificates gcc postgresql-dev linux-headers musl-dev \
     libffi-dev jpeg-dev zlib-dev \

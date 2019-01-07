@@ -2,8 +2,7 @@ version: '3.4'
 
 services:
   djangoapp:
-    # image: terzopoulos/django:test1
-    image: localhost:50000/djangoapp:1
+    image: cloud.canister.io:5000/terzopoulos/demorepo:latest
     networks:
       - django_nginx
       - foobar_network
