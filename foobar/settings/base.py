@@ -123,7 +123,7 @@ DATABASES = {
 #     },
 # }
 DATABASE_ROUTERS = [
-    'foobar.db_routers.common.CommonRouter',
+    # 'foobar.db_routers.common.CommonRouter',
     'foobar.db_routers.specific.SpecificRouter'
 ]
 
