@@ -2,13 +2,13 @@ version: '3.4'
 
 services:
   djangoapp:
-    restart: always
-    container_name: foobar_djangoapp
+    # restart: always
+    container_name: djangoapp
     build:
       context: .
     networks:
       - django_nginx
-      - foobar_network
+      - django_network
     volumes:
       - .:/opt/app
       - static_volume:/opt/app/static
@@ -18,8 +18,8 @@ services:
 
   nginx:
     image: nginx:1.15
-    restart: always
-    container_name: foobar_nginx
+    # restart: always
+    container_name: nginx
     networks:
       - django_nginx
     volumes:
@@ -37,21 +37,21 @@ services:
 
   postgres:  # <-- IMPORTANT: same name as in DATABASES setting
     image: postgres:10
-    restart: always
-    container_name: foobar_postgres
+    # restart: alfoobar_
+    container_name: postgres
     ports:
       - 5432:5432
     env_file:
       - config/postgres/conf.env
     networks:
-      - foobar_network
+      - django_network
     volumes:
-      - foobar_volume:/var/lib/postgresql/data
+      - db_volume:/var/lib/postgresql/data
   
   certbot:
     image: certbot/certbot
-    restart: always
-    container_name: foobar_certbot
+    # restart: always
+    container_name: certbot
     volumes:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
@@ -63,12 +63,12 @@ services:
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
 volumes:
-  foobar_volume:
+  db_volume:
   static_volume:
   media_volume:
 
 networks:
   django_nginx:
     driver: bridge
-  foobar_network:
+  django_network:
     driver: bridge

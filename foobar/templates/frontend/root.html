@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'front/css/root.css' %}" />
+<link rel="stylesheet" href="{% static 'frontend/css/root.css' %}" />
 {% endblock extra_css %}
 
 {% block page_title %}HOME{% endblock %}
@@ -12,6 +12,11 @@
 {% block content %}
 
 <br>
-<div class="header"> {{ text }} </div>
+<div class="header"> 
+    {{ text }}
+    <br>{{bla}}
+    <br>{{bla2}}
+</div>
+
 
 {% endblock content %}

@@ -2,54 +2,64 @@ version: '3.4'
 
 services:
   djangoapp:
-    container_name: foobar_djangoapp
     build:
       context: .
     networks:
       - django_nginx
-      - foobar_network
+      - django_network
     volumes:
       - .:/opt/app
       - static_volume:/opt/app/static
       - media_volume:/opt/app/media
     depends_on:
-      - postgres
+      - psql_specific
+      - psql_common
 
   nginx:
     image: nginx:1.15
-    container_name: foobar_nginx
     networks:
       - django_nginx
     volumes:
       - ./config/nginx/dev:/etc/nginx/conf.d
       - static_volume:/opt/app/static
-      - media_volume:/opt/app/static
+      - media_volume:/opt/app/media
     ports:
-      - 443:443
       - 8000:80
-    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
     depends_on:
       - djangoapp
 
-  postgres:  # <-- IMPORTANT: same name as in DATABASES setting
+  psql_common:
     image: postgres:10
-    container_name: foobar_postgres
     ports:
-      - 5432:5432
+      - 5432
     env_file:
-      - ./config/postgres/conf.env
+      - config/postgres/default.env
     networks:
-      - foobar_network
+      - django_network
     volumes:
-      - foobar_volume:/var/lib/postgresql/data
+      - common:/var/lib/postgresql/data
+
+  psql_specific:
+    image: postgres:10
+    ports:
+      - 5432
+    env_file:
+      - config/postgres/specific.env
+    networks:
+      - django_network
+    volumes:
+      - specific:/var/lib/postgresql/data
+    depends_on:
+      - psql_common
 
 volumes:
-  foobar_volume:
+  common:
+  specific:
   static_volume:
   media_volume:
 
 networks:
   django_nginx:
     driver: bridge
-  foobar_network:
+  django_network:
     driver: bridge

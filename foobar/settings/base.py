@@ -7,9 +7,10 @@ from django.utils.translation import ugettext_lazy as _
 here = lambda *x: os.path.join(os.path.abspath(os.path.dirname(__file__)), *x)
 BASE_DIR = here('..')
 
-POSTGRES_CONF = os.path.join(BASE_DIR, '..', 'config/postgres/conf.env')
-
-env_config = Config(RepositoryEnv(POSTGRES_CONF))
+POSTGRES_DEFAULT = os.path.join(BASE_DIR, '..', 'config/postgres/default.env')
+POSTGRES_SPECIFIC = os.path.join(BASE_DIR, '..', 'config/postgres/specific.env')
+env_default = Config(RepositoryEnv(POSTGRES_DEFAULT))
+env_specific = Config(RepositoryEnv(POSTGRES_SPECIFIC))
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -24,14 +25,19 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
 
-    'foobar.front',
+    'foobar.companies',
+    'foobar.employees'
+
+    # 'foobar.common.companies.apps.CompaniesConfig',
+    # 'foobar.proj1.proj1_employees.apps.EmployeesConfig',
+    # 'foobar.proj2.proj2_employees.apps.EmployeesConfig'
 ]
 
 MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
 
-    'corsheaders.middleware.CorsMiddleware',    
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -82,13 +88,45 @@ WSGI_APPLICATION = 'foobar.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env_config.get('POSTGRES_DB'),
-        'USER': env_config.get('POSTGRES_USER'),
-        'PASSWORD': env_config.get('POSTGRES_PASSWORD'),
-        'HOST': env_config.get('POSTGRES_SERVICE'),
-        'PORT': env_config.get('POSTGRES_PORT'),
+        'NAME': env_default.get('POSTGRES_DB'),
+        'USER': env_default.get('POSTGRES_USER'),
+        'PASSWORD': env_default.get('POSTGRES_PASSWORD'),
+        'HOST': env_default.get('POSTGRES_HOST'),
+        'PORT': env_default.get('POSTGRES_PORT'),
+    },
+    'specific': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': env_specific.get('POSTGRES_DB'),
+        'USER': env_specific.get('POSTGRES_USER'),
+        'PASSWORD': env_specific.get('POSTGRES_PASSWORD'),
+        'HOST': env_specific.get('POSTGRES_HOST'),
+        'PORT': env_specific.get('POSTGRES_PORT'),
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'foobar_common',
+#         'USER': 'foobar_user',
+#         'PASSWORD': '1234',
+#         'HOST': 'localhost',
+#         'PORT': '5433',
+#     },
+#     'specific': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'foobar_specific',
+#         'USER': 'foobar_user',
+#         'PASSWORD': '1234',
+#         'HOST': 'localhost',
+#         'PORT': '5433'
+#     },
+# }
+DATABASE_ROUTERS = [
+    'foobar.db_routers.common.CommonRouter',
+    'foobar.db_routers.specific.SpecificRouter'
+]
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -131,3 +169,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'media')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static_files'),
 )
+
+# ----------------
+EMPLOYEE_MAX_AGE = 100

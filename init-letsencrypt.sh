@@ -23,21 +23,15 @@ docker-compose -f docker-compose-prod.yml run --rm --entrypoint "\
       -subj '/CN=localhost'" certbot
 
 
-echo "### Downloading recommended HTTPS parameters ..."
+echo "### Downloading recommended TLS parameters ..."
 curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot-nginx/certbot_nginx/options-ssl-nginx.conf > "$data_path/conf/options-ssl-nginx.conf"
 curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot/ssl-dhparams.pem > "$data_path/conf/ssl-dhparams.pem"
-
 
 echo "### Starting nginx ..."
 docker-compose -f docker-compose-prod.yml up -d nginx
 
-
 echo "### Deleting dummy certificate ..."
 sudo rm -Rf "$data_path/conf/live"
-
-echo "### Downloading recommended TLS options ..."
-curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot-nginx/certbot_nginx/options-ssl-nginx.conf > "$data_path/conf/options-ssl-nginx.conf"
-curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot/ssl-dhparams.pem > "$data_path/conf/ssl-dhparams.pem"
 
 echo "### Requesting initial certificate ..."
 

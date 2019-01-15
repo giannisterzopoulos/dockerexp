@@ -18,9 +18,10 @@ docker login cloud.canister.io:5000
 docker push cloud.canister.io:5000/terzopoulos/demorepo
 ----
 (run init-letsencrypt.sh on all nodes using the nginx service)
-docker pull cloud.canister.io:5000/terzopoulos/demorepo
 docker swarm init
 docker swarm join...
+docker login cloud.canister.io:5000
+docker pull cloud.canister.io:5000/terzopoulos/demorepo
 docker stack deploy -c docker-swarm.yml foobar_stack
 docker stack services foobar_stack
 docker stack ps foobar_stack
